@@ -1,0 +1,23 @@
+plugins {
+    id 'com.gascharge.taemin.spring-boot-application'
+}
+
+version = '0.0.1'
+
+dependencies {
+    api project(':gascharge-domain-reservation')
+    implementation project(':gascharge-common-common')
+    implementation project(':gascharge-module-redis')
+}
+
+//task wrapper(type: Wrapper) {
+//    gradleVersion = '7.5.1'
+//}
+
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
