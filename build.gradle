@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.3'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'maven-publish'
-    id 'com.github.johnrengelman.shadow' version '7.0.0'
+//    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
 group = 'com.gascharge.taemin'
@@ -33,26 +33,26 @@ dependencies {
     testImplementation 'org.projectlombok:lombok:1.18.26'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 
-    implementation 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1'
-    implementation 'com.gascharge.taemin:gascharge-common-common:0.0.1'
-    implementation 'com.gascharge.taemin:gascharge-module-redis:0.0.1'
+    api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1'
+    api 'com.gascharge.taemin:gascharge-common-common:0.0.1'
+    api 'com.gascharge.taemin:gascharge-module-redis:0.0.1'
 }
 
 bootJar {
     enabled = false
 }
 
-shadowJar {
-    archiveClassifier.set('')
-}
+//shadowJar {
+//    archiveClassifier.set('')
+//}
 
 jar {
-    enabled = false
-    finalizedBy shadowJar
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    enabled = true
+//    finalizedBy shadowJar
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 publishing {
@@ -66,13 +66,20 @@ publishing {
             }
         }
     }
-//    publications {
-//        gpr(MavenPublication) {
-//            artifacts = [ shadowJar ]
-//        }
-//    }
-}
+    publications {
+        gpr(MavenPublication) {
+            artifacts = [ jar ]
 
-//task wrapper(type: Wrapper) {
-//    gradleVersion = '7.5.1'
-//}
+            dependencies {
+                implementation 'org.projectlombok:lombok:1.18.26'
+                annotationProcessor 'org.projectlombok:lombok:1.18.26'
+                testImplementation 'org.projectlombok:lombok:1.18.26'
+                testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
+
+                api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1'
+                api 'com.gascharge.taemin:gascharge-common-common:0.0.1'
+                api 'com.gascharge.taemin:gascharge-module-redis:0.0.1'
+            }
+        }
+    }
+}
