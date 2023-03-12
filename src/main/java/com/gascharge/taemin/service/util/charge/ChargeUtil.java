@@ -1,4 +1,4 @@
-package com.gascharge.taemin.util.charge;
+package com.gascharge.taemin.service.util.charge;
 
 import com.gascharge.taemin.domain.entity.charge.Charge;
 import com.gascharge.taemin.domain.repository.charge.dto.ChargeSearchStatus;

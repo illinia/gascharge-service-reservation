@@ -1,4 +1,4 @@
-package com.gascharge.taemin.util.user;
+package com.gascharge.taemin.service.util.user;
 
 import com.gascharge.taemin.domain.entity.user.User;
 import com.gascharge.taemin.domain.entity.user.search.UserSearchStatus;

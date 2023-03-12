@@ -1,25 +1,62 @@
 plugins {
-    id 'groovy-gradle-plugin'
-    id 'org.springframework.boot' version '2.7.3'
+    id 'org.springframework.boot' version '2.7.3' apply false
     id 'io.spring.dependency-management' version '1.1.0'
+    id 'java-library'
     id 'maven-publish'
-//    id 'com.github.johnrengelman.shadow' version '7.0.0'
 }
 
 group = 'com.gascharge.taemin'
-version = '0.0.1'
+version = '0.0.1-SNAPSHOT'
+
+dependencyManagement {
+    imports {
+        mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+    }
+}
 
 repositories {
     mavenCentral()
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/illinia/gascharge")
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+}
+
+if (project.hasProperty('dev')) {
+    repositories {
+        mavenLocal()
+    }
+
+    dependencies {
+        api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1-SNAPSHOT'
+        api 'com.gascharge.taemin:gascharge-common-common:0.0.1-SNAPSHOT'
+        api 'com.gascharge.taemin:gascharge-module-redis:0.0.1-SNAPSHOT'
+    }
+} else if (project.hasProperty('pro')) {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/illinia/gascharge-lib")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+            }
         }
     }
+
+    dependencies {
+        api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1-SNAPSHOT'
+        api 'com.gascharge.taemin:gascharge-common-common:0.0.1-SNAPSHOT'
+        api 'com.gascharge.taemin:gascharge-module-redis:0.0.1-SNAPSHOT'
+    }
+} else {
+    repositories {
+        mavenLocal()
+    }
+
+    dependencies {
+        api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1-SNAPSHOT'
+        api 'com.gascharge.taemin:gascharge-common-common:0.0.1-SNAPSHOT'
+        api 'com.gascharge.taemin:gascharge-module-redis:0.0.1-SNAPSHOT'
+    }
 }
+
 
 configurations {
     compileOnly {
@@ -32,34 +69,13 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     testImplementation 'org.projectlombok:lombok:1.18.26'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
-
-    api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1'
-    api 'com.gascharge.taemin:gascharge-common-common:0.0.1'
-    api 'com.gascharge.taemin:gascharge-module-redis:0.0.1'
-}
-
-bootJar {
-    enabled = false
-}
-
-//shadowJar {
-//    archiveClassifier.set('')
-//}
-
-jar {
-    enabled = true
-//    finalizedBy shadowJar
-//    from {
-//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/illinia/gascharge-service-reservation")
+            url = uri("https://maven.pkg.github.com/illinia/gascharge-lib")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
@@ -68,18 +84,7 @@ publishing {
     }
     publications {
         gpr(MavenPublication) {
-            artifacts = [ jar ]
-
-            dependencies {
-                implementation 'org.projectlombok:lombok:1.18.26'
-                annotationProcessor 'org.projectlombok:lombok:1.18.26'
-                testImplementation 'org.projectlombok:lombok:1.18.26'
-                testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
-
-                api 'com.gascharge.taemin:gascharge-domain-reservation:0.0.1'
-                api 'com.gascharge.taemin:gascharge-common-common:0.0.1'
-                api 'com.gascharge.taemin:gascharge-module-redis:0.0.1'
-            }
+            from(components.java)
         }
     }
 }

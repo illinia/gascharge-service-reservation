@@ -1,18 +1,17 @@
 package com.gascharge.taemin.service.charge;
 
-import com.gascharge.taemin.annotation.Cache;
-import com.gascharge.taemin.annotation.CacheDelete;
-import com.gascharge.taemin.annotation.CachePut;
 import com.gascharge.taemin.common.exception.jpa.NoEntityFoundException;
 import com.gascharge.taemin.common.util.EntityDynamicUpdater;
 import com.gascharge.taemin.domain.entity.charge.Charge;
 import com.gascharge.taemin.domain.repository.charge.ChargeRepository;
 import com.gascharge.taemin.domain.repository.charge.dto.ChargeSearchStatus;
-import com.gascharge.taemin.redis.RedisJson;
+import com.gascharge.taemin.redis.annotation.Cache;
+import com.gascharge.taemin.redis.annotation.CacheDelete;
+import com.gascharge.taemin.redis.annotation.CachePut;
 import com.gascharge.taemin.service.charge.dto.ChargeServiceRequestDto;
 import com.gascharge.taemin.service.charge.dto.ChargeServiceResponseDto;
 import com.gascharge.taemin.service.charge.dto.FindAllChargeSearchStatusDto;
-import com.gascharge.taemin.util.charge.ChargeUtil;
+import com.gascharge.taemin.service.util.charge.ChargeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,10 +22,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static com.gascharge.taemin.util.charge.ChargeUtil.getChargeSearchStatus;
-import static com.gascharge.taemin.util.charge.ChargeUtil.getChargeServiceReturnDto;
+import static com.gascharge.taemin.service.util.charge.ChargeUtil.getChargeSearchStatus;
+import static com.gascharge.taemin.service.util.charge.ChargeUtil.getChargeServiceReturnDto;
 
 @Slf4j
 @Service
@@ -35,8 +33,6 @@ import static com.gascharge.taemin.util.charge.ChargeUtil.getChargeServiceReturn
 public class ChargeService {
 
     private final ChargeRepository chargeRepository;
-    private final RedisJson redisJson;
-
     public void updateCount(String chargePlaceId, Long totalCount, Long currentCount) {
         Optional<Charge> byChargePlaceId = chargeRepository.findByChargePlaceId(chargePlaceId);
 

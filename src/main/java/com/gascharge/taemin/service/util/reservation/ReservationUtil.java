@@ -1,4 +1,4 @@
-package com.gascharge.taemin.util.reservation;
+package com.gascharge.taemin.service.util.reservation;
 
 import com.gascharge.taemin.domain.entity.reservation.Reservation;
 import com.gascharge.taemin.service.reservation.dto.ReservationServiceResponseDto;
