@@ -4,9 +4,11 @@ import com.gascharge.taemin.domain.enums.user.UserAuthority;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class UserServiceResponseDto {
     private String name;
     private String email;

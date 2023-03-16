@@ -6,11 +6,13 @@ import com.gascharge.taemin.domain.enums.reservation.ReservationStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class ReservationServiceResponseDto {
     private Long id;
     private String reservationValidationId;

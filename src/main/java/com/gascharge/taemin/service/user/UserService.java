@@ -41,7 +41,8 @@ public class UserService {
     @Transactional(readOnly = true)
     public List<UserServiceResponseDto> findAll(UserSearchStatus userSearchStatus, Pageable pageable) {
         Page<User> users = userRepository.findUserWithSearchStatus(userSearchStatus, pageable);
-        List<UserServiceResponseDto> collect = users.getContent().stream().map(UserUtil::getUserServiceResponseDto).collect(Collectors.toList());
+        List<UserServiceResponseDto> collect = users.getContent().stream()
+                .map(UserUtil::getUserServiceResponseDto).collect(Collectors.toList());
         return collect;
     }
 }

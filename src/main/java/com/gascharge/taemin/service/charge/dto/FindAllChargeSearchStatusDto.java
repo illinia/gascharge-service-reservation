@@ -1,7 +1,6 @@
 package com.gascharge.taemin.service.charge.dto;
 
 import com.gascharge.taemin.domain.enums.charge.ChargePlaceMembership;
-import com.gascharge.taemin.domain.repository.charge.dto.ChargeSearchStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
